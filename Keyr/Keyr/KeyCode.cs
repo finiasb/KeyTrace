@@ -1,0 +1,100 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Keyr.Domain;
+
+namespace Keyr.Domain
+{
+    public enum KeyCode  
+    {
+        q = 81, 
+        w = 87, 
+        e = 69, 
+        r = 82, 
+        t = 84,
+        y = 89,
+        u = 85, 
+        i = 73,
+        o = 79,
+        p = 80,
+        a = 65, 
+        s = 83,
+        d = 68,
+        f = 70,
+        g = 71, 
+        h = 72,
+        j = 74,
+        k = 75,
+        l = 76,
+        z = 90,
+        x = 88,
+        c = 67,
+        v = 86, 
+        b = 66,
+        n = 78, 
+        m = 77,
+
+        num0 = 48,
+        num1 = 49,
+        num2 = 50, 
+        num3 = 51,
+        num4 = 52,
+        num5 = 53, 
+        num6 = 54,
+        num7 = 55,
+        num8 = 56,
+        num9 = 57,
+
+        left = 37,
+        up = 38,
+        right = 39,
+        down = 40,
+
+        f1 = 112,
+        f2 = 113,
+        f3 = 114,
+        f4 = 115,
+        f5 = 116, 
+        f6 = 117,
+        f7 = 118, 
+        f8 = 119,
+        f9 = 120, 
+        f10 = 121,
+        f11 = 122,
+        f12 = 123,
+
+        space = 32,
+        enter = 13,
+        esc = 27, 
+        shiftL = 160,
+        shiftR = 161,
+        ctrlL = 162, 
+        ctrlR = 163,
+        altL = 164,
+        altR = 165,
+        tab = 9, 
+        capsLock = 20, 
+        backspace = 8,
+        insert = 45,
+        home = 36,
+        end = 35,
+        pageUp = 33,
+        pageDown = 34, 
+        winL = 91,
+        winR = 92,
+
+        minus = 189,
+        plus = 187,
+        bracketLeft = 219, 
+        bracketRight = 221,
+        backslash = 222,
+        semicolon = 186, 
+        quote = 192,
+        comma = 188,
+        dot = 190, 
+        slash = 191, 
+        tilde = 223
+    }
+}
