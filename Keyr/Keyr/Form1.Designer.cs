@@ -120,7 +120,6 @@
             this.buttonAllTime = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.buttonGraphs = new System.Windows.Forms.Button();
             button32 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -1316,24 +1315,12 @@
             this.label3.TabIndex = 91;
             this.label3.Text = "All Time:\r\n";
             // 
-            // buttonGraphs
-            // 
-            this.buttonGraphs.BackColor = System.Drawing.Color.Transparent;
-            this.buttonGraphs.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonGraphs.Location = new System.Drawing.Point(647, 308);
-            this.buttonGraphs.Name = "buttonGraphs";
-            this.buttonGraphs.Size = new System.Drawing.Size(90, 28);
-            this.buttonGraphs.TabIndex = 92;
-            this.buttonGraphs.Text = "Graphs";
-            this.buttonGraphs.UseVisualStyleBackColor = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(749, 422);
-            this.Controls.Add(this.buttonGraphs);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.buttonAllTime);
@@ -1526,7 +1513,6 @@
         private System.Windows.Forms.Button buttonAllTime;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button buttonGraphs;
     }
 }
 

@@ -13,7 +13,8 @@ namespace Keyr
 {
     public partial class Form1 : Form
     {
-        string path = @"C:\Users\Fineas\source\repos\EU\ServiceApp\ServiceApp\bin\Debug\net8.0-windows\Logs\";
+        string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "KeyrLogs");
+
         private ToolTip toolTip = new ToolTip();
         KeyStatistics stats;
         KeyLogReader reader;
