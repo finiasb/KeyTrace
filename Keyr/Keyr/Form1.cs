@@ -14,7 +14,6 @@ namespace Keyr
     public partial class Form1 : Form
     {
         string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "KeyrLogs");
-
         private ToolTip toolTip = new ToolTip();
         KeyStatistics stats;
         KeyLogReader reader;
@@ -23,6 +22,7 @@ namespace Keyr
             InitializeComponent();
             reader = new KeyLogReader(path);
             stats = reader.ReadDays(0);
+            MessageBox.Show(path);
 
             label1.Text = "Today:\n  " + stats.TotalKeys;
             UpdateButtonColors();   
