@@ -22,7 +22,6 @@ namespace Keyr
             InitializeComponent();
             reader = new KeyLogReader(path);
             stats = reader.ReadDays(0);
-            MessageBox.Show(path);
 
             label1.Text = "Today:\n  " + stats.TotalKeys;
             UpdateButtonColors();   
