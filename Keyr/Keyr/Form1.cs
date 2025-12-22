@@ -30,6 +30,23 @@ namespace Keyr
             stats = reader.ReadAll();
             label3.Text = "All Time: \n   " + stats.TotalKeys;
 
+            reader.KPMCalculator(Path.Combine(path, "total.txt"), stats);
+
+            // Afișare sigură
+            if (stats.count > 0)
+            {
+                // F2 înseamnă că rotunjim la 2 zecimale (ex: 85.50)
+                label4.Text = $"KPM: {stats.KPM:F2} ({stats.count} min active)";
+            }
+            else if (stats.TodayKeys > 0)
+            {
+                label4.Text = $"KPM: {stats.TodayKeys} (sub 1 min)";
+            }
+            else
+            {
+                label4.Text = "KPM: 0";
+            }
+
             toolTip.AutoPopDelay = 5000;
             toolTip.InitialDelay = 300;
             toolTip.ReshowDelay = 200;
@@ -66,19 +83,21 @@ namespace Keyr
                 if (stats.Counts[i] == 0)
                 {
                     button.BackColor = Color.Gray;
-                    toolTip.SetToolTip(button, $"Apăsări: 0\nProcent: 0.00%");
+                    toolTip.SetToolTip(button, $"Keystrokes: 0\nProcent: 0.00%");
                     continue;
                 }
 
                 button.BackColor = ColorHelper.GetColorForPercentage(stats.Percentages[i]);
-                toolTip.SetToolTip(button, $"Apăsări: {stats.Counts[i]}\nProcent: {stats.Percentages[i]:0.00}%");
+                toolTip.SetToolTip(button, $"Keystrokes: {stats.Counts[i]}\nProcent: {stats.Percentages[i]:0.00}%");
             }
         }
 
         private void buttonToday_Click(object sender, EventArgs e)
         {
             stats = reader.ReadDays(0);
-            UpdateButtonColors();   
+            UpdateButtonColors();
+
+
         }
 
         private void buttonYesterday_Click(object sender, EventArgs e)
@@ -109,6 +128,11 @@ namespace Keyr
         {
             stats = reader.ReadAll();
             UpdateButtonColors();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

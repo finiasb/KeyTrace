@@ -11,12 +11,20 @@ namespace Keyr
         public int TotalKeys { get; set; }
         public int[] Counts { get; } = new int[256];
         public double[] Percentages { get; } = new double[256];
+        public int TodayKeys { get; set; }
+        public int[] HoursCount { get; } = new int[25];
+        public int count { get; set; }
+        public double KPM { get; set; }
 
         public void Clear()
         {
             TotalKeys = 0;
+            count = 0;
             Array.Clear(Counts, 0, Counts.Length);    
             Array.Clear(Percentages, 0, Percentages.Length);
+            Array.Clear(HoursCount, 0, HoursCount.Length);
+
+            TodayKeys = 0;
         }
 
         public void AddKey(int key)
