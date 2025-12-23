@@ -17,10 +17,13 @@ namespace Keyr
         private ToolTip toolTip = new ToolTip();
         KeyStatistics stats;
         KeyLogReader reader;
+        KeyCalculator calculator;
+
         public Form1()
         {
             InitializeComponent();
             reader = new KeyLogReader(path);
+            calculator = new KeyCalculator();
             stats = reader.ReadDays(0);
 
             label1.Text = "Today:\n  " + stats.TotalKeys;
@@ -29,22 +32,24 @@ namespace Keyr
             label2.Text = "Yesterday:\n     " + stats.TotalKeys;
             stats = reader.ReadAll();
             label3.Text = "All Time: \n   " + stats.TotalKeys;
-
-            reader.KPMCalculator(Path.Combine(path, "total.txt"), stats);
-
-            // Afișare sigură
-            if (stats.count > 0)
+            stats = reader.ReadDays(0); 
+            reader.KPMReader(stats);
+            stats.KPM = calculator.CalculateKPM(stats.TodayKeys, stats.MinutesCount);
+            stats.WPM = calculator.CalculateWPM((int)stats.KPM);
+            if (stats.MinutesCount > 0)
             {
-                // F2 înseamnă că rotunjim la 2 zecimale (ex: 85.50)
-                label4.Text = $"KPM: {stats.KPM:F2} ({stats.count} min active)";
+                label4.Text = $"KPM: {stats.KPM:F2} ({stats.MinutesCount} min active)";
+                label5.Text = $"WPM(1 word = 5 keys): {stats.WPM}";
             }
             else if (stats.TodayKeys > 0)
             {
                 label4.Text = $"KPM: {stats.TodayKeys} (sub 1 min)";
+                label5.Text = $"WPM(1 word = 5 keys): {stats.WPM}";
             }
             else
             {
                 label4.Text = "KPM: 0";
+                label5.Text = $"WPM(1 word = 5 keys): 0";
             }
 
             toolTip.AutoPopDelay = 5000;
@@ -96,8 +101,6 @@ namespace Keyr
         {
             stats = reader.ReadDays(0);
             UpdateButtonColors();
-
-
         }
 
         private void buttonYesterday_Click(object sender, EventArgs e)
@@ -128,11 +131,6 @@ namespace Keyr
         {
             stats = reader.ReadAll();
             UpdateButtonColors();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

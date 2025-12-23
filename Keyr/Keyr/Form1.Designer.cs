@@ -1323,7 +1323,7 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.LightBlue;
-            this.pictureBox1.Location = new System.Drawing.Point(752, 160);
+            this.pictureBox1.Location = new System.Drawing.Point(747, 160);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(162, 226);
             this.pictureBox1.TabIndex = 92;
@@ -1334,7 +1334,7 @@
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.LightBlue;
             this.label4.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label4.Location = new System.Drawing.Point(772, 176);
+            this.label4.Location = new System.Drawing.Point(761, 177);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(33, 13);
             this.label4.TabIndex = 93;
@@ -1345,18 +1345,18 @@
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.LightBlue;
             this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label5.Location = new System.Drawing.Point(772, 228);
+            this.label5.Location = new System.Drawing.Point(761, 198);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(86, 13);
+            this.label5.Size = new System.Drawing.Size(118, 13);
             this.label5.TabIndex = 94;
-            this.label5.Text = "WPM in sesions:";
+            this.label5.Text = "WPM(1 word = 5 keys):";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.LightBlue;
             this.label6.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label6.Location = new System.Drawing.Point(772, 198);
+            this.label6.Location = new System.Drawing.Point(761, 220);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(88, 13);
             this.label6.TabIndex = 95;

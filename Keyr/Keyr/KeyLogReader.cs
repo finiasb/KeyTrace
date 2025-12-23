@@ -68,21 +68,21 @@ namespace Keyr
             }
         }
 
-        public void KPMCalculator(string filePath, KeyStatistics stats)
+        public void KPMReader(KeyStatistics stats)
         {
+            string filePath = Path.Combine(_path, DateTime.Now.ToString("yyyy-MM-dd") + ".txt");
             if (!File.Exists(filePath))
             {
                 stats.KPM = 0;
-                stats.count = 0;
+                stats.MinutesCount = 0;
                 return;
             }
-
+            int TodayKeys = 0;
             HashSet<string> minuteActive = new HashSet<string>();
-            int totalTaste = 0;
-
             foreach (var linie in File.ReadLines(filePath))
             {
-                if (string.IsNullOrWhiteSpace(linie)) continue;
+                if (string.IsNullOrWhiteSpace(linie))
+                    continue;
 
                 string[] intrari = linie.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -92,24 +92,14 @@ namespace Keyr
 
                     if (parti.Length >= 3)
                     {
-                        totalTaste++;
+                        TodayKeys++;
                         string cheieMinut = $"{parti[1]}:{parti[2]}";
                         minuteActive.Add(cheieMinut);
                     }
                 }
             }
-
-            stats.TodayKeys = totalTaste;
-            stats.count = minuteActive.Count; 
-
-            if (stats.count > 0)
-            {
-                stats.KPM = (double)totalTaste / stats.count;
-            }
-            else
-            {
-                stats.KPM = 0;
-            }
+            stats.TodayKeys = TodayKeys;
+            stats.MinutesCount = minuteActive.Count;
         }
     }
 }
