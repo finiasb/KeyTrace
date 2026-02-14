@@ -1,7 +1,7 @@
 # ⌨️ KeyTrace: Keyboard & Mouse Analytics
 
 <p align="center">
-  <img src="Screenshots/preview.png" alt="KeyTrace Dashboard" width="600">
+  <img src="KeyrUI/KeyrUI/Screenshots/preview.png" alt="KeyTrace Dashboard" width="600">
 </p>
 
 **KeyTrace** is a comprehensive solution for monitoring and visualizing your peripheral activity. It transforms raw input data into an intuitive, color-coded **Heatmap**, allowing you to analyze your typing habits and mouse usage over different periods.
