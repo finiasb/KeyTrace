@@ -7,12 +7,26 @@ namespace WpfApp1
         public static Color GetColorForPercentage(double pct)
         {
             if (pct <= 0) return Color.FromRgb(0x1a, 0x1f, 0x29);
+
             if (pct < 0.5) return Color.FromRgb(0x3b, 0x47, 0x5c);
-            if (pct < 1.5) return Color.FromRgb(0x4a, 0x9e, 0xff);
-            if (pct < 2.5) return Color.FromRgb(0x00, 0xd4, 0xaa);
-            if (pct < 4.0) return Color.FromRgb(0xff, 0xd9, 0x3d);
-            if (pct < 6.0) return Color.FromRgb(0xff, 0x8c, 0x32);
-            return Color.FromRgb(0xff, 0x4d, 0x6d);
+
+            if (pct < 1.0) return Color.FromRgb(0x4a, 0x9e, 0xff);
+
+            if (pct < 2.0) return Color.FromRgb(0x00, 0xd4, 0xaa);
+
+            if (pct < 3.5) return Color.FromRgb(0x2d, 0xff, 0x73);
+
+            if (pct < 5.0) return Color.FromRgb(0x9d, 0xff, 0x3d);
+
+            if (pct < 6.5) return Color.FromRgb(0xff, 0xd9, 0x3d);
+
+            if (pct < 8.0) return Color.FromRgb(0xff, 0xad, 0x32);
+
+            if (pct < 10.0) return Color.FromRgb(0xff, 0x7a, 0x32);
+
+            if (pct < 13.0) return Color.FromRgb(0xff, 0x4d, 0x6d);
+
+            return Color.FromRgb(0xef, 0x23, 0x3c);
         }
     }
 }
