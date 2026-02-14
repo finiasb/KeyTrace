@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Keyr
+namespace WpfApp1
 {
     public class KeyStatistics
     {
@@ -21,7 +17,7 @@ namespace Keyr
             TotalKeys = 0;
             MinutesCount = 0;
             TodayKeys = 0;
-            Array.Clear(Counts, 0, Counts.Length);    
+            Array.Clear(Counts, 0, Counts.Length);
             Array.Clear(Percentages, 0, Percentages.Length);
         }
 
@@ -29,20 +25,19 @@ namespace Keyr
         {
             if (key < 0 || key > 255)
                 return;
-
             TotalKeys++;
-            Counts[key]++;   
+            Counts[key]++;
         }
 
         public void CalculatePercentages()
         {
-            for(int i  = 0; i < 256; i++)
+            for (int i = 0; i < 256; i++)
             {
                 if (Counts[i] != 0)
                 {
                     Percentages[i] = ((double)Counts[i] / TotalKeys) * 100;
                 }
-                else if (Counts[i] == 0)
+                else
                 {
                     Percentages[i] = 0;
                 }

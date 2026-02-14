@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Keyr
+namespace WpfApp1
 {
     public class KeyLogReader
     {
-        string _path;
-        public KeyLogReader(string path) 
+        private readonly string _path;
+
+        public KeyLogReader(string path)
         {
             _path = path;
         }
@@ -21,12 +17,12 @@ namespace Keyr
         {
             KeyStatistics stats = new KeyStatistics();
             stats.Clear();
-            if(days == 1)
+
+            if (days == 1)
             {
                 string filePath = Path.Combine(_path, DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd") + ".txt");
                 if (!File.Exists(filePath))
                     return stats;
-
                 ParseFile(filePath, stats);
             }
             else
@@ -36,7 +32,6 @@ namespace Keyr
                     string filePath = Path.Combine(_path, DateTime.Now.AddDays(-i).ToString("yyyy-MM-dd") + ".txt");
                     if (!File.Exists(filePath))
                         continue;
-
                     ParseFile(filePath, stats);
                 }
             }
@@ -46,19 +41,26 @@ namespace Keyr
         public KeyStatistics ReadAll()
         {
             var stats = new KeyStatistics();
-            ParseFile(Path.Combine(_path, "total.txt"), stats);
+            string totalPath = Path.Combine(_path, "total.txt");
+            if (File.Exists(totalPath))
+            {
+                ParseFile(totalPath, stats);
+            }
             return stats;
         }
 
         public void ParseFile(string filePath, KeyStatistics stats)
         {
+            if (!File.Exists(filePath))
+                return;
+
             foreach (var line in File.ReadLines(filePath))
             {
                 string[] parts = line.Split(' ');
                 foreach (string s in parts)
                 {
-                    string[] SplitedStringS = s.Split(':');
-                    if (int.TryParse(SplitedStringS[0], out int charInInt))
+                    string[] splitedStringS = s.Split(':');
+                    if (int.TryParse(splitedStringS[0], out int charInInt))
                     {
                         stats.TotalKeys++;
                         if (charInInt >= 0 && charInInt < 256)
@@ -77,28 +79,29 @@ namespace Keyr
                 stats.MinutesCount = 0;
                 return;
             }
-            int TodayKeys = 0;
+
+            int todayKeys = 0;
             HashSet<string> minuteActive = new HashSet<string>();
-            foreach (var linie in File.ReadLines(filePath))
+
+            foreach (var line in File.ReadLines(filePath))
             {
-                if (string.IsNullOrWhiteSpace(linie))
+                if (string.IsNullOrWhiteSpace(line))
                     continue;
 
-                string[] intrari = linie.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (string intrare in intrari)
+                string[] entries = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string entry in entries)
                 {
-                    string[] parti = intrare.Split(':');
-
-                    if (parti.Length >= 3)
+                    string[] parts = entry.Split(':');
+                    if (parts.Length >= 3)
                     {
-                        TodayKeys++;
-                        string cheieMinut = $"{parti[1]}:{parti[2]}";
-                        minuteActive.Add(cheieMinut);
+                        todayKeys++;
+                        string minuteKey = $"{parts[1]}:{parts[2]}";
+                        minuteActive.Add(minuteKey);
                     }
                 }
             }
-            stats.TodayKeys = TodayKeys;
+
+            stats.TodayKeys = todayKeys;
             stats.MinutesCount = minuteActive.Count;
         }
     }
