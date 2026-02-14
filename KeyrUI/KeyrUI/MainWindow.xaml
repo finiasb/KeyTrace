@@ -10,21 +10,21 @@
 
     <Window.Resources>
         <Style x:Key="KeyStyle" TargetType="Border">
-    <Setter Property="Background" Value="#161b22"/>
-    <Setter Property="BorderBrush" Value="#30363d"/>
-    <Setter Property="BorderThickness" Value="1.2"/>
-    <Setter Property="Width" Value="48"/>
-    <Setter Property="Height" Value="48"/>
-    <Setter Property="Margin" Value="3.5"/>
-    <Setter Property="CornerRadius" Value="5"/>
-    <Setter Property="Cursor" Value="Hand"/>
-    <Style.Triggers>
-        <Trigger Property="IsMouseOver" Value="True">
-            <Setter Property="Background" Value="#21262d"/>
-            <Setter Property="BorderBrush" Value="#58a6ff"/>
-        </Trigger>
-    </Style.Triggers>
-</Style>
+            <Setter Property="Background" Value="#161b22"/>
+            <Setter Property="BorderBrush" Value="#30363d"/>
+            <Setter Property="BorderThickness" Value="1.2"/>
+            <Setter Property="Width" Value="48"/>
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="Margin" Value="3.5"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#21262d"/>
+                    <Setter Property="BorderBrush" Value="#58a6ff"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
         <Style x:Key="TabButtonStyle" TargetType="Button">
             <Setter Property="FontFamily" Value="Consolas"/>
@@ -431,22 +431,22 @@
 
                             <!-- Bottom Row -->
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <Border Style="{StaticResource KeyStyle}" Width="60">
+                                <Border Style="{StaticResource KeyStyle}" Width="65" Height="46">
                                     <TextBlock Text="CTRL" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="60">
+                                <Border Style="{StaticResource KeyStyle}" Width="66" Height="46">
                                     <TextBlock Text="WIN" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="60">
+                                <Border Style="{StaticResource KeyStyle}" Width="66" Height="46">
                                     <TextBlock Text="ALT" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="336">
+                                <Border Style="{StaticResource KeyStyle}" Width="368" Height="46">
                                     <TextBlock Text="SPACE" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="90">
+                                <Border Style="{StaticResource KeyStyle}" Width="98" Height="46">
                                     <TextBlock Text="ALT" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="81">
+                                <Border Style="{StaticResource KeyStyle}" Width="90" Height="46">
                                     <TextBlock Text="CTRL" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </StackPanel>
