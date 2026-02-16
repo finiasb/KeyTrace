@@ -7,7 +7,6 @@
         AllowsTransparency="True"
         ResizeMode="CanResize">
 
-
     <Window.Resources>
         <Style x:Key="KeyStyle" TargetType="Border">
             <Setter Property="Background" Value="#161b22"/>
@@ -56,423 +55,445 @@
             <Grid Margin="20,20,20,10" Height="700">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <!-- Title Bar -->
                 <Grid Grid.Row="0" Height="45" MouseLeftButtonDown="TitleBar_MouseDown">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                        <Button Content="Keyboard" Style="{StaticResource TabButtonStyle}" Foreground="#ffffff" BorderBrush="#00ff88"/>
-                        <Button Content="Mouse" Style="{StaticResource TabButtonStyle}"/>
+                        <Button x:Name="KeyboardTabButton" Content="Keyboard" Style="{StaticResource TabButtonStyle}" 
+                                Foreground="#ffffff" BorderBrush="#00ff88" Click="KeyboardTab_Click"/>
+                        <Button x:Name="MouseTabButton" Content="Mouse" Style="{StaticResource TabButtonStyle}" 
+                                Click="MouseTab_Click"/>
                     </StackPanel>
 
                     <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
                         <Button Content="─" Width="40" Height="40" Background="Transparent" 
-                Foreground="#6b7280" BorderThickness="0" FontSize="20"
-                Click="Minimize_Click"/>
+                                Foreground="#6b7280" BorderThickness="0" FontSize="20"
+                                Click="Minimize_Click"/>
                         <Button Content="✕" Width="40" Height="40" Background="Transparent" 
-                Foreground="#6b7280" BorderThickness="0" FontSize="18"
-                Click="Close_Click"/>
+                                Foreground="#6b7280" BorderThickness="0" FontSize="18"
+                                Click="Close_Click"/>
                     </StackPanel>
                 </Grid>
 
-                <!-- Stats -->
-                <Grid Grid.Row="1" Margin="0,20,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <!-- KEYBOARD SECTION -->
+                <Grid x:Name="KeyboardSection" Grid.Row="1" Visibility="Visible">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                    <Border Grid.Column="0" Background="#12161d" BorderBrush="#00ff88" BorderThickness="0,0,0,3" Padding="20,15">
-                        <StackPanel>
-                            <TextBlock Text="TODAY" FontFamily="Consolas" FontSize="10" Foreground="#6b7280" FontWeight="Bold"/>
-                            <TextBlock x:Name="TodayKeys" Text="0" FontFamily="Consolas" FontSize="36" 
-                                       Foreground="#00ff88" FontWeight="Bold" Margin="0,5,0,0"/>
-                            <TextBlock Text="keys pressed" FontFamily="Consolas" FontSize="10" Foreground="#4a5568"/>
+                        <!-- Stats -->
+                        <Grid Grid.Row="0" Margin="0,20,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0" Background="#12161d" BorderBrush="#00ff88" BorderThickness="0,0,0,3" Padding="20,15">
+                                <StackPanel>
+                                    <TextBlock Text="TODAY" FontFamily="Consolas" FontSize="10" Foreground="#6b7280" FontWeight="Bold"/>
+                                    <TextBlock x:Name="TodayKeys" Text="0" FontFamily="Consolas" FontSize="36" 
+                                               Foreground="#00ff88" FontWeight="Bold" Margin="0,5,0,0"/>
+                                    <TextBlock Text="keys pressed" FontFamily="Consolas" FontSize="10" Foreground="#4a5568"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Grid.Column="1" Background="#12161d" BorderBrush="#fbbf24" BorderThickness="0,0,0,3" Padding="20,15" Margin="10,0">
+                                <StackPanel>
+                                    <TextBlock Text="YESTERDAY" FontFamily="Consolas" FontSize="10" Foreground="#6b7280" FontWeight="Bold"/>
+                                    <TextBlock x:Name="YesterdayKeys" Text="0" FontFamily="Consolas" FontSize="36" 
+                                               Foreground="#fbbf24" FontWeight="Bold" Margin="0,5,0,0"/>
+                                    <TextBlock Text="keys pressed" FontFamily="Consolas" FontSize="10" Foreground="#4a5568"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Grid.Column="2" Background="#12161d" BorderBrush="#4a9eff" BorderThickness="0,0,0,3" Padding="20,15">
+                                <StackPanel>
+                                    <TextBlock Text="SPEED" FontFamily="Consolas" FontSize="10" Foreground="#6b7280" FontWeight="Bold"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <TextBlock x:Name="KPM" Text="0" FontFamily="Consolas" FontSize="36" 
+                                                   Foreground="#4a9eff" FontWeight="Bold"/>
+                                        <TextBlock Text="kpm" FontFamily="Consolas" FontSize="14" Foreground="#4a5568" 
+                                                   Margin="5,0,0,0" VerticalAlignment="Bottom"/>
+                                    </StackPanel>
+                                    <TextBlock x:Name="WPM" Text="0 wpm" FontFamily="Consolas" FontSize="10" Foreground="#4a5568"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Grid.Column="3" Background="#12161d" BorderBrush="#a78bfa" BorderThickness="0,0,0,3" Padding="20,15" Margin="10,0,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="ALL TIME" FontFamily="Consolas" FontSize="10" Foreground="#6b7280" FontWeight="Bold"/>
+                                    <TextBlock x:Name="AllTimeKeys" Text="0" FontFamily="Consolas" FontSize="36" 
+                                               Foreground="#a78bfa" FontWeight="Bold" Margin="0,5,0,0"/>
+                                    <TextBlock Text="total keys" FontFamily="Consolas" FontSize="10" Foreground="#4a5568"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <!-- Tabs -->
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,30,0,15">
+                            <Button x:Name="TabToday" Content="today" Style="{StaticResource TabButtonStyle}"
+                                    Click="Tab_Click" Tag="0"/>
+                            <Button x:Name="TabYesterday" Content="yesterday" Style="{StaticResource TabButtonStyle}"
+                                    Click="Tab_Click" Tag="1"/>
+                            <Button x:Name="TabWeek" Content="week" Style="{StaticResource TabButtonStyle}"
+                                    Click="Tab_Click" Tag="7"/>
+                            <Button x:Name="TabMonth" Content="month" Style="{StaticResource TabButtonStyle}"
+                                    Click="Tab_Click" Tag="30"/>
+                            <Button x:Name="TabYear" Content="year" Style="{StaticResource TabButtonStyle}"
+                                    Click="Tab_Click" Tag="365"/>
+                            <Button x:Name="TabAll" Content="all" Style="{StaticResource TabButtonStyle}"
+                                    Margin="0" Click="Tab_Click" Tag="-1"/>
                         </StackPanel>
-                    </Border>
 
-                    <Border Grid.Column="1" Background="#12161d" BorderBrush="#fbbf24" BorderThickness="0,0,0,3" Padding="20,15" Margin="10,0">
-                        <StackPanel>
-                            <TextBlock Text="YESTERDAY" FontFamily="Consolas" FontSize="10" Foreground="#6b7280" FontWeight="Bold"/>
-                            <TextBlock x:Name="YesterdayKeys" Text="0" FontFamily="Consolas" FontSize="36" 
-                                       Foreground="#fbbf24" FontWeight="Bold" Margin="0,5,0,0"/>
-                            <TextBlock Text="keys pressed" FontFamily="Consolas" FontSize="10" Foreground="#4a5568"/>
-                        </StackPanel>
-                    </Border>
+                        <!-- Keyboard -->
+                        <Border Grid.Row="2" Background="#12161d" BorderBrush="#1a1f29" BorderThickness="1">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20" Margin="0,0,0,20">
+                                <StackPanel HorizontalAlignment="Center">
+                                    <!-- Function Keys -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="ESC" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Rectangle Width="30" Fill="Transparent"/>
+                                        <Border Style="{StaticResource KeyStyle}" Width="56">
+                                            <TextBlock Text="F1" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}" Width="54">
+                                            <TextBlock Text="F2" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}" Width="54">
+                                            <TextBlock Text="F3" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}" Width="50">
+                                            <TextBlock Text="F4" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Rectangle Width="15" Fill="Transparent"/>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="F5" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="F6" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="F7" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="F8" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Rectangle Width="15" Fill="Transparent"/>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="F9" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="F10" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="F11" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="F12" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
 
-                    <Border Grid.Column="2" Background="#12161d" BorderBrush="#4a9eff" BorderThickness="0,0,0,3" Padding="20,15">
-                        <StackPanel>
-                            <TextBlock Text="SPEED" FontFamily="Consolas" FontSize="10" Foreground="#6b7280" FontWeight="Bold"/>
-                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                <TextBlock x:Name="KPM" Text="0" FontFamily="Consolas" FontSize="36" 
-                                           Foreground="#4a9eff" FontWeight="Bold"/>
-                                <TextBlock Text="kpm" FontFamily="Consolas" FontSize="14" Foreground="#4a5568" 
-                                           Margin="5,0,0,0" VerticalAlignment="Bottom"/>
+                                    <!-- Number Row -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="`" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="1" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="2" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="3" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="4" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="5" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="6" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="7" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="8" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="9" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="0" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="-" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="=" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}" Width="75">
+                                            <TextBlock Text="BACK" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <!-- QWERTY Row -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Style="{StaticResource KeyStyle}" Width="55">
+                                            <TextBlock Text="TAB" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="Q" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="W" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="E" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="R" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="T" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="Y" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="U" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="I" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="O" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="P" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="[" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="]" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}" Width="68">
+                                            <TextBlock Text="\" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <!-- ASDF Row -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Style="{StaticResource KeyStyle}" Width="78">
+                                            <TextBlock Text="CAPS" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="A" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="S" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="D" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="F" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="G" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="H" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="J" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="K" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="L" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text=";" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="'" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}" Width="98">
+                                            <TextBlock Text="ENTER" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <!-- ZXCV Row -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Style="{StaticResource KeyStyle}" Width="106">
+                                            <TextBlock Text="SHIFT" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="Z" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="X" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="C" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="V" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="B" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="N" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="M" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="," FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="." FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}">
+                                            <TextBlock Text="/" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}" Width="124">
+                                            <TextBlock Text="SHIFT" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <!-- Bottom Row -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                                        <Border Style="{StaticResource KeyStyle}" Width="65" Height="46">
+                                            <TextBlock Text="CTRL" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}" Width="66" Height="46">
+                                            <TextBlock Text="WIN" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}" Width="66" Height="46">
+                                            <TextBlock Text="ALT" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}" Width="368" Height="46">
+                                            <TextBlock Text="SPACE" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}" Width="98" Height="46">
+                                            <TextBlock Text="ALT" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Style="{StaticResource KeyStyle}" Width="90" Height="46">
+                                            <TextBlock Text="CTRL" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Border>
+
+                        <!-- Footer -->
+                        <Grid Grid.Row="4" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                            <Separator Background="#1a1f26" Margin="0,0,0,10" Height="0.5" Opacity="0.5"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Opacity="0.5">
+                                <TextBlock Text="©" FontFamily="Segoe UI" FontSize="10" Foreground="#ffffff" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBlock Text="2026 KeyTrace" FontFamily="Consolas" FontSize="10" Foreground="#ffffff" VerticalAlignment="Center"/>
+                                <Canvas Width="4" Height="4" Margin="10,0" VerticalAlignment="Center">
+                                    <Ellipse Fill="#ffffff" Width="2" Height="2"/>
+                                </Canvas>
+                                <TextBlock Text="v1.0.4" FontFamily="Consolas" FontSize="10" Foreground="#ffffff" VerticalAlignment="Center"/>
+                                <Canvas Width="4" Height="4" Margin="10,0" VerticalAlignment="Center">
+                                    <Ellipse Fill="#ffffff" Width="2" Height="2"/>
+                                </Canvas>
+                                <TextBlock Text="All rights reserved" FontFamily="Consolas" FontSize="10" Foreground="#ffffff" VerticalAlignment="Center"/>
                             </StackPanel>
-                            <TextBlock x:Name="WPM" Text="0 wpm" FontFamily="Consolas" FontSize="10" Foreground="#4a5568"/>
-                        </StackPanel>
-                    </Border>
-
-                    <Border Grid.Column="3" Background="#12161d" BorderBrush="#a78bfa" BorderThickness="0,0,0,3" Padding="20,15" Margin="10,0,0,0">
-                        <StackPanel>
-                            <TextBlock Text="ALL TIME" FontFamily="Consolas" FontSize="10" Foreground="#6b7280" FontWeight="Bold"/>
-                            <TextBlock x:Name="AllTimeKeys" Text="0" FontFamily="Consolas" FontSize="36" 
-                                       Foreground="#a78bfa" FontWeight="Bold" Margin="0,5,0,0"/>
-                            <TextBlock Text="total keys" FontFamily="Consolas" FontSize="10" Foreground="#4a5568"/>
-                        </StackPanel>
-                    </Border>
+                        </Grid>
+                    </Grid>
                 </Grid>
 
-                <!-- Tabs -->
-                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,30,0,15">
-                    <Button x:Name="TabToday" Content="today" Style="{StaticResource TabButtonStyle}"
-                            Click="Tab_Click" Tag="0"/>
-                    <Button x:Name="TabYesterday" Content="yesterday" Style="{StaticResource TabButtonStyle}"
-                            Click="Tab_Click" Tag="1"/>
-                    <Button x:Name="TabWeek" Content="week" Style="{StaticResource TabButtonStyle}"
-                            Click="Tab_Click" Tag="7"/>
-                    <Button x:Name="TabMonth" Content="month" Style="{StaticResource TabButtonStyle}"
-                            Click="Tab_Click" Tag="30"/>
-                    <Button x:Name="TabYear" Content="year" Style="{StaticResource TabButtonStyle}"
-                            Click="Tab_Click" Tag="365"/>
-                    <Button x:Name="TabAll" Content="all" Style="{StaticResource TabButtonStyle}"
-                            Margin="0" Click="Tab_Click" Tag="-1"/>
-                </StackPanel>
-
-                <!-- Keyboard -->
-                <Border Grid.Row="3" Background="#12161d" BorderBrush="#1a1f29" BorderThickness="1" Margin="0,0,0,0">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20" Margin="0,0,0,20">
-                        <StackPanel HorizontalAlignment="Center">
-                            <!-- Function Keys -->
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="ESC" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Rectangle Width="30" Fill="Transparent"/>
-                                <Border Style="{StaticResource KeyStyle}" Width="56">
-                                    <TextBlock Text="F1" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="54">
-                                    <TextBlock Text="F2" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="54">
-                                    <TextBlock Text="F3" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="50">
-                                    <TextBlock Text="F4" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Rectangle Width="15" Fill="Transparent"/>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="F5" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="F6" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="F7" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="F8" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Rectangle Width="15" Fill="Transparent"/>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="F9" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="F10" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="F11" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="F12" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </StackPanel>
-
-                            <!-- Number Row -->
-                            <StackPanel Orientation="Horizontal">
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="`" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="1" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="2" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="3" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="4" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="5" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="6" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="7" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="8" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="9" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="0" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="-" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="=" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="75">
-                                    <TextBlock Text="BACK" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </StackPanel>
-
-                            <!-- QWERTY Row -->
-                            <StackPanel Orientation="Horizontal">
-                                <Border Style="{StaticResource KeyStyle}" Width="55">
-                                    <TextBlock Text="TAB" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="Q" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="W" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="E" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="R" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="T" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="Y" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="U" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="I" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="O" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="P" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="[" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="]" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="68">
-                                    <TextBlock Text="\" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </StackPanel>
-
-                            <!-- ASDF Row -->
-                            <StackPanel Orientation="Horizontal">
-                                <Border Style="{StaticResource KeyStyle}" Width="78">
-                                    <TextBlock Text="CAPS" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="A" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="S" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="D" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="F" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="G" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="H" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="J" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="K" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="L" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text=";" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="'" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="98">
-                                    <TextBlock Text="ENTER" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </StackPanel>
-
-                            <!-- ZXCV Row -->
-                            <StackPanel Orientation="Horizontal">
-                                <Border Style="{StaticResource KeyStyle}" Width="106">
-                                    <TextBlock Text="SHIFT" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="Z" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="X" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="C" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="V" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="B" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="N" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="M" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="," FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="." FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}">
-                                    <TextBlock Text="/" FontFamily="Consolas" FontSize="14" Foreground="#ffffff" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="124">
-                                    <TextBlock Text="SHIFT" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </StackPanel>
-
-                            <!-- Bottom Row -->
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                                <Border Style="{StaticResource KeyStyle}" Width="65" Height="46">
-                                    <TextBlock Text="CTRL" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="66" Height="46">
-                                    <TextBlock Text="WIN" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="66" Height="46">
-                                    <TextBlock Text="ALT" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="368" Height="46">
-                                    <TextBlock Text="SPACE" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="98" Height="46">
-                                    <TextBlock Text="ALT" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border Style="{StaticResource KeyStyle}" Width="90" Height="46">
-                                    <TextBlock Text="CTRL" FontFamily="Consolas" FontSize="9" Foreground="#ffffff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </StackPanel>
+                <!-- MOUSE SECTION (pagină nouă, fără statistici) -->
+                <Grid x:Name="MouseSection" Grid.Row="1" Visibility="Collapsed">
+                    <Border Background="#161b22" BorderBrush="#1a1f29" BorderThickness="1" Padding="40">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="🖱️" FontSize="72" HorizontalAlignment="Center" Margin="0,0,0,30"/>
+                            <TextBlock Text="Mouse Tracking" FontFamily="Consolas" FontSize="32" 
+                                       Foreground="#ffffff" HorizontalAlignment="Center" FontWeight="Bold"/>
+                            <TextBlock Text="Coming soon..." FontFamily="Consolas" FontSize="16" 
+                                       Foreground="#161b22" HorizontalAlignment="Center" Margin="0,15,0,0"/>
                         </StackPanel>
-                    </ScrollViewer>
-                </Border>
-                <Grid Grid.Row="4" VerticalAlignment="Bottom" Margin="0,0,0,10">
-                    <Separator Background="#1a1f26" Margin="0,0,0,10" Height="0.5" Opacity="0.5"/>
-
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Opacity="0.5">
-                        <TextBlock Text="©" FontFamily="Segoe UI" FontSize="10" Foreground="#ffffff" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                        <TextBlock Text="2026 KeyTrace" FontFamily="Consolas" FontSize="10" Foreground="#ffffff" VerticalAlignment="Center"/>
-
-                        <Canvas Width="4" Height="4" Margin="10,0" VerticalAlignment="Center">
-                            <Ellipse Fill="#ffffff" Width="2" Height="2"/>
-                        </Canvas>
-
-                        <TextBlock Text="v1.0.4" FontFamily="Consolas" FontSize="10" Foreground="#ffffff" VerticalAlignment="Center"/>
-
-                        <Canvas Width="4" Height="4" Margin="10,0" VerticalAlignment="Center">
-                            <Ellipse Fill="#ffffff" Width="2" Height="2"/>
-                        </Canvas>
-
-                        <TextBlock Text="All rights reserved" FontFamily="Consolas" FontSize="10" Foreground="#ffffff" VerticalAlignment="Center"/>
-                    </StackPanel>
+                    </Border>
                 </Grid>
             </Grid>
         </Grid>

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using KeyrUI;
+using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WpfApp1
 {
@@ -37,6 +39,34 @@ namespace WpfApp1
 
             this.Loaded += MainWindow_Loaded;
         }
+        private void KeyboardTab_Click(object sender, RoutedEventArgs e)
+        {
+            // Arată secțiunea Keyboard
+            KeyboardSection.Visibility = Visibility.Visible;
+            MouseSection.Visibility = Visibility.Collapsed;
+
+            // Actualizează stilurile butoanelor
+            KeyboardTabButton.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ffffff"));
+            KeyboardTabButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00ff88"));
+
+            MouseTabButton.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6b7280"));
+            MouseTabButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2a3342"));
+        }
+
+        private void MouseTab_Click(object sender, RoutedEventArgs e)
+        {
+            // Arată secțiunea Mouse
+            KeyboardSection.Visibility = Visibility.Collapsed;
+            MouseSection.Visibility = Visibility.Visible;
+
+            // Actualizează stilurile butoanelor
+            MouseTabButton.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ffffff"));
+            MouseTabButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00ff88"));
+
+            KeyboardTabButton.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6b7280"));
+            KeyboardTabButton.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2a3342"));
+        }
+
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             LoadInitialData();
@@ -86,8 +116,7 @@ namespace WpfApp1
             var textBlock = FindVisualChild<TextBlock>(border);
             if (textBlock == null) return;
 
-            string keyText = textBlock.Text;
-            int keyCode = GetKeyCodeFromText(keyText);
+            int keyCode = KeyCodeHelper.GetKeyCode(textBlock.Text);
 
             if (keyCode >= 0 && keyCode < 256 && _currentStats != null)
             {
@@ -104,85 +133,10 @@ namespace WpfApp1
             _hoverToolTip.IsOpen = false;
         }
 
-        
 
-        private int GetKeyCodeFromText(string text)
-        {
-            return text.ToUpper() switch
-            {
-                "ESC" => 27,
-                "F1" => 112,
-                "F2" => 113,
-                "F3" => 114,
-                "F4" => 115,
-                "F5" => 116,
-                "F6" => 117,
-                "F7" => 118,
-                "F8" => 119,
-                "F9" => 120,
-                "F10" => 121,
-                "F11" => 122,
-                "F12" => 123,
-                "`" => 192,
-                "~" => 192,
-                "1" => 49,
-                "2" => 50,
-                "3" => 51,
-                "4" => 52,
-                "5" => 53,
-                "6" => 54,
-                "7" => 55,
-                "8" => 56,
-                "9" => 57,
-                "0" => 48,
-                "-" => 189,
-                "=" => 187,
-                "BACK" => 8,
-                "TAB" => 9,
-                "Q" => 81,
-                "W" => 87,
-                "E" => 69,
-                "R" => 82,
-                "T" => 84,
-                "Y" => 89,
-                "U" => 85,
-                "I" => 73,
-                "O" => 79,
-                "P" => 80,
-                "[" => 219,
-                "]" => 221,
-                "\\" => 220,
-                "CAPS" => 20,
-                "A" => 65,
-                "S" => 83,
-                "D" => 68,
-                "F" => 70,
-                "G" => 71,
-                "H" => 72,
-                "J" => 74,
-                "K" => 75,
-                "L" => 76,
-                ";" => 186,
-                "'" => 222,
-                "ENTER" => 13,
-                "SHIFT" => 160,
-                "Z" => 90,
-                "X" => 88,
-                "C" => 67,
-                "V" => 86,
-                "B" => 66,
-                "N" => 78,
-                "M" => 77,
-                "," => 188,
-                "." => 190,
-                "/" => 191,
-                "CTRL" => 162,
-                "WIN" => 91,
-                "ALT" => 164,
-                "SPACE" => 32,
-                _ => -1
-            };
-        }
+
+       
+
 
         private void Tab_Click(object sender, RoutedEventArgs e)
         {
@@ -226,7 +180,8 @@ namespace WpfApp1
                 var textBlock = FindVisualChild<TextBlock>(border);
                 if (textBlock == null) continue;
 
-                int keyCode = GetKeyCodeFromText(textBlock.Text);
+                int keyCode = KeyCodeHelper.GetKeyCode(textBlock.Text);
+
 
                 if (keyCode >= 0 && keyCode < 256)
                 {
