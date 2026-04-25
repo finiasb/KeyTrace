@@ -82,6 +82,6 @@ namespace KeyrUI
         public static int GetKeyCode(string text)
         {
             return KeyTextMap.TryGetValue(text, out int keyCode) ? keyCode : -1;
-        }
+        } 
     }
 }
