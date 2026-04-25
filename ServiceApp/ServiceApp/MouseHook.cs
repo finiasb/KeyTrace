@@ -21,11 +21,27 @@ namespace ServiceApp
 
         private delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
 
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            public int x;
+            public int y;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MSLLHOOKSTRUCT
+        {
+            public POINT pt;
+            public uint mouseData;
+            public uint flags;
+            public uint time;
+            public IntPtr dwExtraInfo;
+        }
         public static void StartHook()
         {
             _hookId = SetHook(_proc);
 
-            timer = new System.Timers.Timer(5000); // Salvare la 5 secunde pentru mouse
+            timer = new System.Timers.Timer(5000); 
             timer.Elapsed += Timer_Elapsed;
             timer.AutoReset = true;
             timer.Start();
@@ -56,12 +72,17 @@ namespace ServiceApp
 
                 if (!string.IsNullOrEmpty(buttonClicked))
                 {
+                    MSLLHOOKSTRUCT hookStruct = Marshal.PtrToStructure<MSLLHOOKSTRUCT>(lParam);
+
+                    int x = hookStruct.pt.x;
+                    int y = hookStruct.pt.y;
                     string timestamp = DateTime.Now.ToString("HH:mm:ss");
-                    lock (buffer) // Siguranță pentru multi-threading
+
+                    lock (buffer)
                     {
-                        buffer.AppendLine($"{buttonClicked}:{timestamp}");
+                        buffer.AppendLine($"{buttonClicked}:{timestamp}:{x}:{y}");
                     }
-                    Debug.WriteLine($"Mouse: {buttonClicked} at {timestamp}");
+                    Debug.WriteLine($"Mouse: {buttonClicked} at {x},{y}");
                 }
             }
             return CallNextHookEx(_hookId, nCode, wParam, lParam);
