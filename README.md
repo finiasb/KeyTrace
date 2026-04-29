@@ -53,19 +53,6 @@ To ensure accurate statistics, `ServiceApp.exe` should run continuously.
 
 ---
 
-## 📊 Heatmap Color Guide
-
-The dashboard uses a neon-inspired gradient to represent key usage intensity:
-
-| Percentage | Color | Usage Level |
-| :--- | :--- | :--- |
-| **0%** | 🔘 Deep Gray | Unused |
-| **< 1%** | 🔵 Blue/Purple | Occasional |
-| **1% - 5%** | 🟢 Teal | Moderate |
-| **> 5%** | 🔋 Neon Green | Frequent |
-
----
-
 ## 📁 Data Storage
 Your data is kept private and stored locally on your machine:
 `%AppData%\Roaming\KeyrLogs`
