@@ -1,4 +1,4 @@
-# ⌨️ KeyTrace: Keyboard & Mouse Analytics
+# KeyTrace: Keyboard & Mouse Analytics
 
 <p align="center">
   <img src="KeyrUI/KeyrUI/Screenshots/preview.png" alt="KeyTrace Dashboard" width="600">
@@ -25,18 +25,7 @@ The project is split into two specialized components:
 
 ---
 
-## 🖱️ Mouse Tracking (Current Status)
-
-The **Mouse Tracking Engine** is fully operational and currently logs:
-* Left-Click, Right-Click, and Middle-Click counts.
-* Precise timestamps for every click.
-* Data is stored in `%AppData%/KeyrLogs/Mouse/`.
-
-> **Note:** The Mouse Statistics UI is currently under development. A dedicated dashboard for mouse heatmaps and click-frequency analytics is **coming soon**.
-
----
-
-## 🚀 Setup: Running the Logger in Background
+## Setup: Running the Logger in Background
 
 To ensure accurate statistics, `ServiceApp.exe` should run continuously.
 
@@ -53,28 +42,11 @@ To ensure accurate statistics, `ServiceApp.exe` should run continuously.
 
 ---
 
-## 📁 Data Storage
+## Data Storage
 Your data is kept private and stored locally on your machine:
 `%AppData%\Roaming\KeyrLogs`
-
-* **Daily Logs:** `yyyy-MM-dd.txt`
-* **Mouse Logs:** `/Mouse/yyyy-MM-dd_mouse.txt`
-* **Lifetime Stats:** `total.txt`
-
----
-
-## 🛠️ Technical Specifications
-* **Language:** C# (.NET)
-* **Framework:** WPF (Windows Presentation Foundation)
-* **APIs:** Win32 API (`User32.dll`, `Kernel32.dll`)
-* **Persistence:** Local File System I/O with `StringBuilder` buffering.
 
 ---
 
 ## ⚠️ Security Notice
 This software is intended for **personal productivity analysis only**. Because this tool records keystrokes, it can capture sensitive information. Use this responsibly and strictly for personal data analysis.
-
----
-<p align="center">
-  © 2026 KeyTrace Pro. All rights reserved.
-</p>
