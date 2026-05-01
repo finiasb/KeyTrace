@@ -1,4 +1,4 @@
-# KeyTrace: Keyboard & Mouse Analytics
+# KeyTrace
 
 <p align="center">
   <img src="KeyrUI/KeyrUI/Screenshots/preview.png" alt="KeyTrace Dashboard" width="600">
@@ -9,7 +9,7 @@
 ---
 
 
-## Setup: Running the Logger in Background
+## Setup
 
 To ensure accurate statistics, `ServiceApp.exe` should run continuously.
 
