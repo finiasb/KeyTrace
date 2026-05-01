@@ -8,22 +8,6 @@
 
 ---
 
-## 🏗️ System Architecture
-
-The project is split into two specialized components:
-
-### 1. ServiceApp (The Logger)
-* **Background Operation:** Runs silently in the background with minimal CPU footprint.
-* **Low-Level Hooks:** Utilizes `WH_KEYBOARD_LL` and `WH_MOUSE_LL` via the Win32 API to capture system-wide inputs.
-* **Smart Buffering:** To protect your SSD/HDD, data is buffered in memory and flushed to disk every 3-5 seconds.
-* **Storage:** Data is organized by date in `%AppData%/KeyrLogs`.
-
-### 2. KeyTrace Visualizer (The Dashboard)
-* **WPF Interface:** A modern, high-performance UI built with XAML.
-* **Heatmap Logic:** Dynamically calculates frequency percentages and updates the keyboard layout from **Cold (Gray/Blue)** to **Hot (Neon Green)**.
-* **Time Filtering:** Analyze data for Today, Yesterday, Week, Month, Year, or All Time.
-
----
 
 ## Setup: Running the Logger in Background
 
